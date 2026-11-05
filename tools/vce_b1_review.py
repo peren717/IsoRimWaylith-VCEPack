@@ -12,7 +12,7 @@ OUTLINE = 0.03
 AMB, SUN = 0.50, 0.62
 PX = 460
 
-REST, RISE = 0.36, 0.75     # pumpjack: arm's lowest point at rest, 3D rise at VCHE's top of stroke
+REST, RISE = 0.56, 0.75     # pumpjack: arm's lowest point at rest, 3D rise at VCHE's top of stroke
 def pump(rise):
     y = REST + rise
     return [dict(obj='vce_pumpjack_base'), dict(obj='vce_pumpjack_rod', ys=y), dict(obj='vce_pumpjack_arm', dy=y)]

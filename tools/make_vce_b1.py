@@ -389,7 +389,7 @@ def refinery():
 
 
 # ---------------- pumpjack
-PJ_RAISE = 0.30    # user review of v2: the platform twice as thick, everything on it lifted by this
+PJ_RAISE = 0.50    # user reviews of v2 and v3: the platform raised, everything on it lifted by this
 PJ_SLAB = 0.10 + PJ_RAISE   # the raised deck between the plates
 PJ_TOP = 0.62 + PJ_RAISE    # both blocks' top
 PJ_PIT = 0.46      # the well between the two plates reaches z +-0.46

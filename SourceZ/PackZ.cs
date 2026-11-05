@@ -5,8 +5,8 @@ namespace IsoRimVCEPackZ
 {
     // IsoRim Waylith - Vanilla Chemfuel Expanded Pack, IsoRimZ part (loaded only with IsoRimZ: LoadFolders.xml 1.7/IsoRimZ).
     //  - Pumpjack ground only: XML (1.7/IsoRimZ/Defs/GroundOnly.xml, ProjectZ.GroundOnlyDef).
-    //  - Pumpjack and floors over it: its 3D arm (top 2.29, drawn by the IsoRim part) is not in the base model IsoRimZ's height
-    //    rule measures (1.08), so the pumpjack counts as too tall for a floor over it (ProjectZ.Api.RegisterHeightRule).
+    //  - Pumpjack and floors over it: its 3D arm (top 2.49, drawn by the IsoRim part) is not in the base model IsoRimZ's height
+    //    rule measures (1.28), so the pumpjack counts as too tall for a floor over it (ProjectZ.Api.RegisterHeightRule).
     //  - The refinery needs no rule: its model is taller than a storey (chimney 1.95), the height rule reads that.
     [StaticConstructorOnStartup]
     public static class PackZ

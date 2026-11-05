@@ -72,7 +72,7 @@ namespace IsoRimVCEPack
     {
         private const string ArmModel = "Models/vce_pumpjack_arm.obj";
         private const string RodModel = "Models/vce_pumpjack_rod.obj";
-        private const float Rest = 0.36f;          // the arm's lowest point at rest, cells over the ground (the deck is at 0.40)
+        private const float Rest = 0.56f;          // the arm's lowest point at rest, cells over the ground (the deck is at 0.60)
         private const float RiseFactor = 0.68f;
 
         private static IsoRim.ModelHandle arm, rod;

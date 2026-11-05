@@ -20,7 +20,7 @@ function Img($gfx,$p,$x,$y){ $im=[System.Drawing.Image]::FromFile($p);$gfx.Inter
 $TOPH=60;$HEAD=48
 $PW=$LW+2*($CELL+$GAP)+10;$PH=$TOPH+$HEAD+2*($CELL+$GAP)+$HEAD+$CELL+14
 $bmp=New-Object System.Drawing.Bitmap $PW,$PH;$gfx=[System.Drawing.Graphics]::FromImage($bmp);$gfx.Clear($BACK);$gfx.TextRenderingHint='AntiAliasGridFit'
-$gfx.DrawString('抽油机 第三版（红线 = 1.60）',$fT,$white,14,10)
+$gfx.DrawString('抽油机 第四版（红线 = 1.60）',$fT,$white,14,10)
 $sf=New-Object System.Drawing.StringFormat;$sf.Alignment='Center'
 $y0=$TOPH;$y1=$y0+$HEAD;$y2=$y1+$CELL+$GAP;$y3=$y2+$CELL+$GAP;$y4=$y3+$HEAD
 $ground=$y4+$CELL/2+($FRAME/2-0.2)*$CELL/$FRAME
