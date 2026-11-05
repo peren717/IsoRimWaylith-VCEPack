@@ -390,6 +390,7 @@ def refinery():
 
 # ---------------- pumpjack
 PJ_SLAB = 0.10
+PJ_TOP = 0.62      # both blocks' top
 PJ_PIT = 0.46      # the well between the two plates reaches z +-0.46
 
 
@@ -401,29 +402,27 @@ def pumpjack_base():
     n = [(-1.46, 0.68), (-1.0, PJ_PIT), (1.0, PJ_PIT), (1.46, 0.68), (1.46, 1.34), (1.34, 1.46), (-1.34, 1.46), (-1.46, 1.34)]
     prism(m, n, 0, T, 'vce_pj_plateF', 'vce_pj_plate')
     prism(m, [(x, -z) for x, z in n], 0, T, 'vce_pj_plateF', 'vce_pj_plate')
-    # north housing: vertical front with the arch, hipped back
+    # the two blocks either side of the well: one matching pair, the same hipped shape mirrored, top PJ_TOP (user review of the
+    # in-game sheet). The camera looks over the south block: with its top at 0.62 the sight line meets the arm's axis at about
+    # 0.30, so the collar (0.58) and the whole head stay in view at rest.
     F = PJ_PIT - 0.008
     low = [(-0.98, F), (0.98, F), (0.98, 0.82), (0.32, 1.26), (-0.32, 1.26), (-0.98, 0.82)]
     high = [(-0.84, F), (0.84, F), (0.84, 0.76), (0.27, 1.10), (-0.27, 1.10), (-0.84, 0.76)]
-    rings = [plan(low, PJ_SLAB - 0.01), plan(low, 0.46), plan(high, 0.86)]
-    loft(m, rings, lambda i, j: 'vce_pj_face' if j == 0 else ('vce_pj_hoodA' if i == 0 else 'vce_pj_hoodB'), cap0='vce_pj_face', cap1='vce_pj_hoodT')
-    # arch and the two guide bars on the front (paint)
+    for sgn in (1, -1):
+        lo_ = [(x, sgn * z) for x, z in low]
+        hi_ = [(x, sgn * z) for x, z in high]
+        rings = [plan(lo_, PJ_SLAB - 0.01), plan(lo_, 0.36), plan(hi_, PJ_TOP)]
+        loft(m, rings, lambda i, j: 'vce_pj_face' if j == 0 else ('vce_pj_hoodA' if i == 0 else 'vce_pj_hoodB'), cap0='vce_pj_face', cap1='vce_pj_hoodT')
+    # arch and the two guide bars on the north block's front (paint)
     k = 12
-    pts = [(0.43 * math.cos(math.pi * i / k), 0.30 + 0.26 * math.sin(math.pi * i / k), F) for i in range(k + 1)] + [(-0.43, PJ_SLAB, F), (0.43, PJ_SLAB, F)]
+    pts = [(0.43 * math.cos(math.pi * i / k), 0.28 + 0.24 * math.sin(math.pi * i / k), F) for i in range(k + 1)] + [(-0.43, PJ_SLAB, F), (0.43, PJ_SLAB, F)]
     m.decal(pts, 'vce_pj_arch', NZ)
     for x in (-0.63, 0.63):
-        m.rect((x, 0.50, F), X, Y, NZ, 0.085, 0.24, 'vce_pj_guide')
-    # south ramp: a wedge rising to the well
-    RH, RL = 0.64, 0.30
-    Rn, Rs = -PJ_PIT + 0.008, -1.20
-    yy = lambda z: RL + (RH - RL) * (z - Rs) / (Rn - Rs)
-    pl = [(-0.42, Rn), (-0.98, Rn - 0.26), (-0.98, Rs + 0.22), (-0.75, Rs), (0.75, Rs), (0.98, Rs + 0.22), (0.98, Rn - 0.26), (0.42, Rn)]
-    loft(m, [plan(pl, PJ_SLAB - 0.01), [(x, yy(z), z) for x, z in pl]], lambda i, j: 'vce_pj_ramp', cap0='vce_pj_ramp', cap1='vce_pj_ramp')
-    # the lighter strip up the ramp (paint, on the slope)
-    sn = norm((0, 1, -(RH - RL) / (Rn - Rs)))
-    m.decal([(-0.36, yy(-1.14), -1.14), (0.36, yy(-1.14), -1.14), (0.07, yy(-0.66), -0.66), (-0.07, yy(-0.66), -0.66)], 'vce_pj_rampC', sn)
+        m.rect((x, 0.37, F), X, Y, NZ, 0.085, 0.17, 'vce_pj_guide')
+    # the lighter strip on the south block's top (paint)
+    m.decal([(-0.30, PJ_TOP, -1.00), (0.30, PJ_TOP, -1.00), (0.07, PJ_TOP, -0.54), (-0.07, PJ_TOP, -0.54)], 'vce_pj_rampC', Y)
     # the two pipes round the machine
-    PIPE, lo, hi = 0.07, 0.46, 0.60
+    PIPE, lo, hi = 0.07, 0.46, 0.72    # the south pipe crosses over the block
     tube(m, [(-1.16, 0.12, 0.14), (-1.16, lo, 0.14), (-1.16, lo, 1.33), (1.24, lo, 1.33), (1.24, lo, 0.88), (1.24, T + 0.02, 0.88)], PIPE, 'vce_pj_pipe')
     tube(m, [(-1.24, T + 0.02, -0.62), (-1.24, hi, -0.62), (-1.24, hi, -0.86), (1.24, hi, -0.86), (1.24, hi, -1.14), (1.24, T + 0.02, -1.14)], PIPE, 'vce_pj_pipe')
     f = 'vce_pj_flange'

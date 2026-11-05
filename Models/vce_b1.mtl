@@ -133,9 +133,6 @@ map_Kd IsoRim/Swatches/Metal
 newmtl vce_pj_plateF
 Kd 0.25 0.27 0.28
 map_Kd IsoRim/Swatches/Metal
-newmtl vce_pj_ramp
-Kd 0.31 0.31 0.31
-map_Kd IsoRim/Swatches/Metal
 newmtl vce_pj_rampC
 Kd 0.40 0.40 0.40
 newmtl vce_pj_ribD

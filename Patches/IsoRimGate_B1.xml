@@ -17,7 +17,7 @@
       <xpath>/Defs/IsoRim.ModelDef[defName="R3D_VCE_DeepchemTank"]</xpath>
       <value>
         <thingDef>PS_DeepchemTank</thingDef>
-        <barAt>(0, 1.61, 0)</barAt>
+        <barAt>(0, 1.60, 0)</barAt>
       </value>
     </apply>
   </Operation>
