@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- IsoRim Waylith - Vanilla Chemfuel Expanded Pack, batch B1: models made after VCE's art (tools/make_vce_b1.py).
+     These defs bind nothing by themselves (no thingDef): Patches/IsoRimGate_B1.xml binds them on IsoRim Api 36+. -->
+<Defs>
+  <IsoRim.ModelDef>   <!-- box tank 1.07 -->
+    <defName>R3D_VCE_ChemfuelTank</defName>
+    <model>Models/vce_tank_chem.obj</model>
+    <builtFor>(2, 3)</builtFor>
+    <surfaceHeight>0.00</surfaceHeight>
+  </IsoRim.ModelDef>
+  <IsoRim.ModelDef>   <!-- lying round tank on its base 1.595 -->
+    <defName>R3D_VCE_DeepchemTank</defName>
+    <model>Models/vce_tank_deep.obj</model>
+    <builtFor>(2, 3)</builtFor>
+    <surfaceHeight>0.00</surfaceHeight>
+  </IsoRim.ModelDef>
+  <IsoRim.ModelDef>   <!-- basin 0.20, items on the floor 0.12 -->
+    <defName>R3D_VCE_ChemfuelTap</defName>
+    <model>Models/vce_tap_chem.obj</model>
+    <builtFor>(1, 1)</builtFor>
+    <surfaceHeight>0.12</surfaceHeight>
+  </IsoRim.ModelDef>
+  <IsoRim.ModelDef>   <!-- basin 0.20, items on the floor 0.12 -->
+    <defName>R3D_VCE_DeepchemTap</defName>
+    <model>Models/vce_tap_deep.obj</model>
+    <builtFor>(1, 1)</builtFor>
+    <surfaceHeight>0.12</surfaceHeight>
+  </IsoRim.ModelDef>
+  <IsoRim.ModelDef>   <!-- basin 0.20, items on the grate 0.12 -->
+    <defName>R3D_VCE_ChemfuelDrain</defName>
+    <model>Models/vce_drain_chem.obj</model>
+    <builtFor>(1, 1)</builtFor>
+    <surfaceHeight>0.12</surfaceHeight>
+  </IsoRim.ModelDef>
+  <IsoRim.ModelDef>   <!-- basin 0.20, items on the grate 0.12 -->
+    <defName>R3D_VCE_DeepchemDrain</defName>
+    <model>Models/vce_drain_deep.obj</model>
+    <builtFor>(1, 1)</builtFor>
+    <surfaceHeight>0.12</surfaceHeight>
+  </IsoRim.ModelDef>
+  <IsoRim.ModelDef>   <!-- open 0.43, closed 0.51 (state vce_valve_off) -->
+    <defName>R3D_VCE_ChemfuelValve</defName>
+    <model>Models/vce_valve_chem_on.obj</model>
+    <builtFor>(1, 1)</builtFor>
+    <surfaceHeight>0.00</surfaceHeight>
+  </IsoRim.ModelDef>
+  <IsoRim.ModelDef>   <!-- open 0.43, closed 0.51 (state vce_valve_off) -->
+    <defName>R3D_VCE_DeepchemValve</defName>
+    <model>Models/vce_valve_deep_on.obj</model>
+    <builtFor>(1, 1)</builtFor>
+    <surfaceHeight>0.00</surfaceHeight>
+  </IsoRim.ModelDef>
+  <IsoRim.ModelDef>   <!-- chimney 1.95: taller than a storey, no floor over it -->
+    <defName>R3D_VCE_Refinery</defName>
+    <model>Models/vce_refinery.obj</model>
+    <builtFor>(3, 3)</builtFor>
+    <surfaceHeight>0.00</surfaceHeight>
+  </IsoRim.ModelDef>
+  <IsoRim.ModelDef>   <!-- base 0.86; the arm and rod are drawn by the pack code -->
+    <defName>R3D_VCE_Pumpjack</defName>
+    <model>Models/vce_pumpjack_base.obj</model>
+    <builtFor>(3, 3)</builtFor>
+    <surfaceHeight>0.00</surfaceHeight>
+  </IsoRim.ModelDef>
+  <IsoRim.ModelDef>   <!-- the drum, as big as IsoRim's chemfuel item -->
+    <defName>R3D_VCE_Deepchem</defName>
+    <stackModels>
+      <li>Models/vce_deepchem.obj</li>
+    </stackModels>
+    <overArt>true</overArt>
+  </IsoRim.ModelDef>
+</Defs>

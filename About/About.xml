@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModMetaData>
+  <name>IsoRim Waylith - Vanilla Chemfuel Expanded Pack</name>
+  <author>Lin</author>
+  <packageId>Peren.IsoRimWaylith.VCEPack</packageId>
+  <supportedVersions>
+    <li>1.7</li>
+  </supportedVersions>
+  <modDependencies>
+    <li>
+      <packageId>Peren.IsoRim17</packageId>
+      <displayName>IsoRim Waylith</displayName>
+      <steamWorkshopUrl>steam://url/CommunityFilePage/3819577715</steamWorkshopUrl>
+    </li>
+    <li>
+      <packageId>VanillaExpanded.VChemfuelE</packageId>
+      <displayName>Vanilla Chemfuel Expanded</displayName>
+      <steamWorkshopUrl>steam://url/CommunityFilePage/2792917473</steamWorkshopUrl>
+    </li>
+  </modDependencies>
+  <loadAfter>
+    <li>Peren.IsoRim17</li>
+    <li>Peren.IsoRimProjectZ</li>
+    <li>OskarPotocki.VanillaFactionsExpanded.Core</li>
+    <li>VanillaExpanded.VChemfuelE</li>
+    <li>Peren.IsoRimWaylith.VEFPack</li>
+  </loadAfter>
+  <description>Vanilla Chemfuel Expanded in IsoRim's 3D view and on IsoRimZ floors.
+
+- 3D models for tanks, taps, drains, valves, the refinery, the pumpjack and deepchem
+- Valves show open and closed; the pumpjack's plunger moves in 3D; the refinery's fire burns in its chimney
+- With IsoRimZ: the pumpjack stays on the ground with no floor over it; no floor over the refinery; the rest works on any floor; add the VE Framework Pack for pipes across floors
+
+Needs the latest IsoRim Waylith; older versions load without the models.
+
+让 Vanilla Chemfuel Expanded 在 IsoRim 的 3D 视角和 IsoRimZ 的楼层上正常工作。
+
+- 储罐、出料口、进料口、阀门、精炼厂、抽油机和深层化学物的 3D 模型
+- 阀门显示开和关；抽油机的柱塞在 3D 中运动；精炼厂的火焰在烟囱口燃烧
+- 配合 IsoRimZ：抽油机只能建在地面，上方不能有楼板；精炼厂上方不能有楼板；其余建筑可建在任意楼层；管道跨楼层需要 VE Framework Pack
+
+需要最新版 IsoRim Waylith；版本较旧时也能加载，只是没有模型。</description>
+</ModMetaData>

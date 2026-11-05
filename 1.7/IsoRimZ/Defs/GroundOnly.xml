@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!-- IsoRimZ: the deepchem pumpjack drills into the ground, so it can only be built on the ground floor
+       ("Must be built on the ground"), like the deep drill (ProjectZ.GroundOnlyDef). -->
+  <ProjectZ.GroundOnlyDef>
+    <defName>VCE_IsoRimZ_GroundOnly</defName>
+    <things>
+      <li>VCHE_DeepchemPumpjack</li>
+    </things>
+  </ProjectZ.GroundOnlyDef>
+</Defs>

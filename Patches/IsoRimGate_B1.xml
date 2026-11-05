@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- IsoRim Waylith - Vanilla Chemfuel Expanded Pack, batch B1 gate: binds the models on IsoRim Api 36+, so an older IsoRim still loads the pack. -->
+<Patch>
+  <Operation Class="IsoRimPackGate.PatchOperation_IfIsoRimApi">
+    <minVersion>36</minVersion>
+    <apply Class="PatchOperationAdd">
+      <xpath>/Defs/IsoRim.ModelDef[defName="R3D_VCE_ChemfuelTank"]</xpath>
+      <value>
+        <thingDef>PS_ChemfuelTank</thingDef>
+        <barAt>(0, 1.08, 0)</barAt>
+      </value>
+    </apply>
+  </Operation>
+  <Operation Class="IsoRimPackGate.PatchOperation_IfIsoRimApi">
+    <minVersion>36</minVersion>
+    <apply Class="PatchOperationAdd">
+      <xpath>/Defs/IsoRim.ModelDef[defName="R3D_VCE_DeepchemTank"]</xpath>
+      <value>
+        <thingDef>PS_DeepchemTank</thingDef>
+        <barAt>(0, 1.61, 0)</barAt>
+      </value>
+    </apply>
+  </Operation>
+  <Operation Class="IsoRimPackGate.PatchOperation_IfIsoRimApi">
+    <minVersion>36</minVersion>
+    <apply Class="PatchOperationAdd">
+      <xpath>/Defs/IsoRim.ModelDef[defName="R3D_VCE_ChemfuelTap"]</xpath>
+      <value>
+        <thingDef>VCHE_ChemfuelTap</thingDef>
+      </value>
+    </apply>
+  </Operation>
+  <Operation Class="IsoRimPackGate.PatchOperation_IfIsoRimApi">
+    <minVersion>36</minVersion>
+    <apply Class="PatchOperationAdd">
+      <xpath>/Defs/IsoRim.ModelDef[defName="R3D_VCE_DeepchemTap"]</xpath>
+      <value>
+        <thingDef>VCHE_DeepchemTap</thingDef>
+      </value>
+    </apply>
+  </Operation>
+  <Operation Class="IsoRimPackGate.PatchOperation_IfIsoRimApi">
+    <minVersion>36</minVersion>
+    <apply Class="PatchOperationAdd">
+      <xpath>/Defs/IsoRim.ModelDef[defName="R3D_VCE_ChemfuelDrain"]</xpath>
+      <value>
+        <thingDef>VCHE_ChemfuelDrain</thingDef>
+      </value>
+    </apply>
+  </Operation>
+  <Operation Class="IsoRimPackGate.PatchOperation_IfIsoRimApi">
+    <minVersion>36</minVersion>
+    <apply Class="PatchOperationAdd">
+      <xpath>/Defs/IsoRim.ModelDef[defName="R3D_VCE_DeepchemDrain"]</xpath>
+      <value>
+        <thingDef>VCHE_DeepchemDrain</thingDef>
+      </value>
+    </apply>
+  </Operation>
+  <Operation Class="IsoRimPackGate.PatchOperation_IfIsoRimApi">
+    <minVersion>36</minVersion>
+    <apply Class="PatchOperationAdd">
+      <xpath>/Defs/IsoRim.ModelDef[defName="R3D_VCE_ChemfuelValve"]</xpath>
+      <value>
+        <thingDef>VCHE_ChemfuelValve</thingDef>
+        <byState>
+          <li><state>vce_valve_off</state><model>Models/vce_valve_chem_off.obj</model></li>
+        </byState>
+      </value>
+    </apply>
+  </Operation>
+  <Operation Class="IsoRimPackGate.PatchOperation_IfIsoRimApi">
+    <minVersion>36</minVersion>
+    <apply Class="PatchOperationAdd">
+      <xpath>/Defs/IsoRim.ModelDef[defName="R3D_VCE_DeepchemValve"]</xpath>
+      <value>
+        <thingDef>VCHE_DeepchemValve</thingDef>
+        <byState>
+          <li><state>vce_valve_off</state><model>Models/vce_valve_deep_off.obj</model></li>
+        </byState>
+      </value>
+    </apply>
+  </Operation>
+  <Operation Class="IsoRimPackGate.PatchOperation_IfIsoRimApi">
+    <minVersion>36</minVersion>
+    <apply Class="PatchOperationAdd">
+      <xpath>/Defs/IsoRim.ModelDef[defName="R3D_VCE_Refinery"]</xpath>
+      <value>
+        <thingDef>PS_DeepchemRefinery</thingDef>
+      </value>
+    </apply>
+  </Operation>
+  <Operation Class="IsoRimPackGate.PatchOperation_IfIsoRimApi">
+    <minVersion>36</minVersion>
+    <apply Class="PatchOperationAdd">
+      <xpath>/Defs/IsoRim.ModelDef[defName="R3D_VCE_Pumpjack"]</xpath>
+      <value>
+        <thingDef>VCHE_DeepchemPumpjack</thingDef>
+      </value>
+    </apply>
+  </Operation>
+  <Operation Class="IsoRimPackGate.PatchOperation_IfIsoRimApi">
+    <minVersion>36</minVersion>
+    <apply Class="PatchOperationAdd">
+      <xpath>/Defs/IsoRim.ModelDef[defName="R3D_VCE_Deepchem"]</xpath>
+      <value>
+        <thingDef>VCHE_Deepchem</thingDef>
+      </value>
+    </apply>
+  </Operation>
+</Patch>
