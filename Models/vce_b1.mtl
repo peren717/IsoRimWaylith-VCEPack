@@ -1,0 +1,270 @@
+# IsoRim Waylith - Vanilla Chemfuel Expanded Pack, batch B1: fixed colours sampled from VCE's textures.
+newmtl vce_ct_blade
+Kd 0.56 0.54 0.52
+newmtl vce_ct_fan
+Kd 0.33 0.38 0.33
+newmtl vce_ct_panel
+Kd 0.29 0.15 0.15
+newmtl vce_ct_plate
+Kd 0.52 0.49 0.48
+map_Kd IsoRim/Swatches/Metal
+newmtl vce_ct_red
+Kd 0.37 0.19 0.19
+map_Kd IsoRim/Swatches/Metal
+newmtl vce_ct_strap
+Kd 0.40 0.38 0.37
+map_Kd IsoRim/Swatches/Metal
+newmtl vce_dt_body
+Kd 0.28 0.28 0.28
+map_Kd IsoRim/Swatches/Metal
+newmtl vce_dt_collar
+Kd 0.33 0.33 0.33
+map_Kd IsoRim/Swatches/Metal
+newmtl vce_dt_end
+Kd 0.16 0.16 0.16
+newmtl vce_dt_foot
+Kd 0.30 0.12 0.12
+map_Kd IsoRim/Swatches/Metal
+newmtl vce_dt_hub
+Kd 0.42 0.42 0.41
+map_Kd IsoRim/Swatches/Metal
+newmtl vce_dt_plate
+Kd 0.25 0.25 0.25
+newmtl vce_hc_dial
+Kd 0.60 0.57 0.56
+newmtl vce_hc_floor
+Kd 0.52 0.49 0.48
+map_Kd IsoRim/Swatches/Metal
+newmtl vce_hc_frame
+Kd 0.39 0.20 0.22
+map_Kd IsoRim/Swatches/Metal
+newmtl vce_hc_front
+Kd 0.26 0.13 0.13
+map_Kd IsoRim/Swatches/Metal
+newmtl vce_hc_grate
+Kd 0.33 0.29 0.29
+newmtl vce_hc_halo
+Kd 0.44 0.41 0.40
+newmtl vce_hc_hole
+Kd 0.20 0.17 0.17
+newmtl vce_hc_ring
+Kd 0.26 0.21 0.21
+newmtl vce_hc_slopeN
+Kd 0.45 0.43 0.42
+map_Kd IsoRim/Swatches/Metal
+newmtl vce_hc_slopeW
+Kd 0.52 0.49 0.48
+map_Kd IsoRim/Swatches/Metal
+newmtl vce_hc_wall
+Kd 0.29 0.16 0.16
+newmtl vce_hd_dial
+Kd 0.54 0.51 0.50
+newmtl vce_hd_floor
+Kd 0.30 0.29 0.27
+map_Kd IsoRim/Swatches/Metal
+newmtl vce_hd_frame
+Kd 0.42 0.26 0.23
+map_Kd IsoRim/Swatches/Metal
+newmtl vce_hd_front
+Kd 0.19 0.08 0.09
+map_Kd IsoRim/Swatches/Metal
+newmtl vce_hd_grate
+Kd 0.17 0.16 0.16
+newmtl vce_hd_halo
+Kd 0.36 0.34 0.33
+newmtl vce_hd_hole
+Kd 0.09 0.09 0.09
+newmtl vce_hd_ring
+Kd 0.24 0.20 0.20
+newmtl vce_hd_slopeN
+Kd 0.22 0.22 0.21
+map_Kd IsoRim/Swatches/Metal
+newmtl vce_hd_slopeW
+Kd 0.29 0.28 0.27
+map_Kd IsoRim/Swatches/Metal
+newmtl vce_hd_wall
+Kd 0.25 0.10 0.11
+newmtl vce_it_body
+Kd 0.36 0.14 0.15
+newmtl vce_it_cap
+Kd 0.36 0.37 0.36
+newmtl vce_it_hoop
+Kd 0.24 0.09 0.09
+newmtl vce_it_lid
+Kd 0.42 0.20 0.21
+newmtl vce_it_mark
+Kd 0.24 0.09 0.09
+newmtl vce_pj_arch
+Kd 0.12 0.12 0.12
+newmtl vce_pj_collar
+Kd 0.36 0.18 0.19
+map_Kd IsoRim/Swatches/Metal
+newmtl vce_pj_face
+Kd 0.21 0.21 0.21
+map_Kd IsoRim/Swatches/Metal
+newmtl vce_pj_flange
+Kd 0.36 0.36 0.36
+map_Kd IsoRim/Swatches/Metal
+newmtl vce_pj_grey
+Kd 0.36 0.36 0.36
+map_Kd IsoRim/Swatches/Metal
+newmtl vce_pj_guide
+Kd 0.41 0.41 0.41
+newmtl vce_pj_head
+Kd 0.44 0.27 0.27
+map_Kd IsoRim/Swatches/Metal
+newmtl vce_pj_hoodA
+Kd 0.34 0.34 0.34
+map_Kd IsoRim/Swatches/Metal
+newmtl vce_pj_hoodB
+Kd 0.28 0.28 0.28
+map_Kd IsoRim/Swatches/Metal
+newmtl vce_pj_hoodT
+Kd 0.36 0.36 0.36
+map_Kd IsoRim/Swatches/Metal
+newmtl vce_pj_pipe
+Kd 0.28 0.28 0.28
+map_Kd IsoRim/Swatches/Metal
+newmtl vce_pj_pit
+Kd 0.11 0.11 0.11
+newmtl vce_pj_plate
+Kd 0.52 0.52 0.52
+map_Kd IsoRim/Swatches/Metal
+newmtl vce_pj_plateF
+Kd 0.25 0.27 0.28
+map_Kd IsoRim/Swatches/Metal
+newmtl vce_pj_ramp
+Kd 0.31 0.31 0.31
+map_Kd IsoRim/Swatches/Metal
+newmtl vce_pj_rampC
+Kd 0.40 0.40 0.40
+newmtl vce_pj_ribD
+Kd 0.31 0.15 0.16
+map_Kd IsoRim/Swatches/Metal
+newmtl vce_pj_ribL
+Kd 0.42 0.23 0.25
+map_Kd IsoRim/Swatches/Metal
+newmtl vce_pj_ring
+Kd 0.17 0.17 0.17
+newmtl vce_pj_rod
+Kd 0.32 0.32 0.32
+map_Kd IsoRim/Swatches/Metal
+newmtl vce_pj_slab
+Kd 0.32 0.17 0.17
+map_Kd IsoRim/Swatches/Metal
+newmtl vce_pj_slot
+Kd 0.27 0.26 0.26
+newmtl vce_rf_block
+Kd 0.46 0.46 0.46
+map_Kd IsoRim/Swatches/Metal
+newmtl vce_rf_chim
+Kd 0.24 0.24 0.24
+map_Kd IsoRim/Swatches/Metal
+newmtl vce_rf_collar
+Kd 0.45 0.45 0.45
+map_Kd IsoRim/Swatches/Metal
+newmtl vce_rf_finD
+Kd 0.34 0.34 0.34
+map_Kd IsoRim/Swatches/Metal
+newmtl vce_rf_finL
+Kd 0.64 0.64 0.63
+map_Kd IsoRim/Swatches/Metal
+newmtl vce_rf_flangeC
+Kd 0.56 0.38 0.33
+map_Kd IsoRim/Swatches/Metal
+newmtl vce_rf_flangeD
+Kd 0.36 0.11 0.11
+map_Kd IsoRim/Swatches/Metal
+newmtl vce_rf_hood
+Kd 0.53 0.53 0.53
+map_Kd IsoRim/Swatches/Metal
+newmtl vce_rf_inset
+Kd 0.25 0.09 0.09
+newmtl vce_rf_manB
+Kd 0.37 0.37 0.37
+map_Kd IsoRim/Swatches/Metal
+newmtl vce_rf_manF
+Kd 0.34 0.34 0.34
+map_Kd IsoRim/Swatches/Metal
+newmtl vce_rf_manT
+Kd 0.42 0.42 0.42
+map_Kd IsoRim/Swatches/Metal
+newmtl vce_rf_mouth
+Kd 0.07 0.07 0.07
+newmtl vce_rf_neck
+Kd 0.30 0.30 0.30
+map_Kd IsoRim/Swatches/Metal
+newmtl vce_rf_pad
+Kd 0.52 0.50 0.48
+map_Kd IsoRim/Swatches/Metal
+newmtl vce_rf_pipeC
+Kd 0.50 0.31 0.29
+map_Kd IsoRim/Swatches/Metal
+newmtl vce_rf_pipeD
+Kd 0.27 0.27 0.27
+map_Kd IsoRim/Swatches/Metal
+newmtl vce_rf_plinth
+Kd 0.33 0.18 0.18
+map_Kd IsoRim/Swatches/Metal
+newmtl vce_rf_plinthF
+Kd 0.24 0.10 0.10
+map_Kd IsoRim/Swatches/Metal
+newmtl vce_rf_rad
+Kd 0.50 0.50 0.49
+map_Kd IsoRim/Swatches/Metal
+newmtl vce_rf_rib
+Kd 0.40 0.40 0.40
+newmtl vce_rf_rim
+Kd 0.30 0.30 0.30
+map_Kd IsoRim/Swatches/Metal
+newmtl vce_rf_silo
+Kd 0.56 0.56 0.56
+map_Kd IsoRim/Swatches/Metal
+newmtl vce_rf_slat
+Kd 0.26 0.27 0.26
+newmtl vce_rf_vent
+Kd 0.46 0.45 0.44
+newmtl vce_vc_body
+Kd 0.42 0.26 0.26
+map_Kd IsoRim/Swatches/Metal
+newmtl vce_vc_collar
+Kd 0.47 0.30 0.29
+map_Kd IsoRim/Swatches/Metal
+newmtl vce_vc_cut
+Kd 0.30 0.15 0.15
+newmtl vce_vc_disc
+Kd 0.50 0.34 0.33
+map_Kd IsoRim/Swatches/Metal
+newmtl vce_vc_dome
+Kd 0.50 0.36 0.35
+map_Kd IsoRim/Swatches/Metal
+newmtl vce_vc_hub
+Kd 0.46 0.30 0.29
+map_Kd IsoRim/Swatches/Metal
+newmtl vce_vc_pipe
+Kd 0.55 0.35 0.33
+map_Kd IsoRim/Swatches/Metal
+newmtl vce_vc_stem
+Kd 0.30 0.17 0.17
+newmtl vce_vd_body
+Kd 0.25 0.22 0.22
+map_Kd IsoRim/Swatches/Metal
+newmtl vce_vd_collar
+Kd 0.37 0.15 0.15
+map_Kd IsoRim/Swatches/Metal
+newmtl vce_vd_cut
+Kd 0.20 0.19 0.20
+newmtl vce_vd_disc
+Kd 0.41 0.18 0.19
+map_Kd IsoRim/Swatches/Metal
+newmtl vce_vd_dome
+Kd 0.35 0.31 0.31
+map_Kd IsoRim/Swatches/Metal
+newmtl vce_vd_hub
+Kd 0.34 0.34 0.34
+map_Kd IsoRim/Swatches/Metal
+newmtl vce_vd_pipe
+Kd 0.31 0.31 0.31
+map_Kd IsoRim/Swatches/Metal
+newmtl vce_vd_stem
+Kd 0.26 0.26 0.26
