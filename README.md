@@ -8,7 +8,7 @@
 
 Requires IsoRim Waylith (latest version) and Vanilla Chemfuel Expanded. IsoRimZ is optional. Load after them. With an older IsoRim Waylith the pack still loads, without the models.
 
-With IsoRimZ, add the VE Framework Pack too: it joins pipes across floors. Without it the fill gauges lie on the tanks' tops; with it they stand up over them.
+With IsoRimZ, add the VE Framework Pack too: it joins pipes across floors.
 
 让 Vanilla Chemfuel Expanded 在 IsoRim Waylith 的 3D 视角和 IsoRimZ 的楼层上正常工作。
 
@@ -18,7 +18,7 @@ With IsoRimZ, add the VE Framework Pack too: it joins pipes across floors. Witho
 
 需要最新版 IsoRim Waylith 和 Vanilla Chemfuel Expanded。IsoRimZ 可选。请放在它们之后加载。IsoRim Waylith 版本较旧时也能加载，只是没有模型。
 
-使用 IsoRimZ 时请同时启用 VE Framework Pack，管道才能跨楼层连接。没有它时储量条平放在储罐顶上；有它时立在储罐上方。
+使用 IsoRimZ 时请同时启用 VE Framework Pack，管道才能跨楼层连接。
 
 Vanilla Chemfuel Expanded is made by the Vanilla Expanded team (Oskar Potocki and others). The models are new, made after VCE's art; this pack contains no files of the original mod.
 
