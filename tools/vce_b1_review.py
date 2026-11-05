@@ -1,6 +1,6 @@
 # Blender (5.x, headless) review renders for make_vce_b1.py. Game look as tools\stylefurn_review.py: Kd as sRGB, 3-band stepped sun,
 # the game's inverted hull (0.03, vertices at y = 0 stay on the ground), glow unlit. Camera from the south, pitch 38, orthographic.
-# usage: blender --background --factory-startup --python vce_b1_review.py -- <Models dir> <IsoRim Models dir> <abs out dir>
+# usage: blender --background --factory-startup --python vce_b1_review.py -- <Models dir> <IsoRim Models dir> <abs out dir> [job ...]
 # writes <job>_{game,g45,back,front,side,top,play}.png; job parts carry dy (lift) and ys (height scale): the pumpjack's arm and rod.
 import bpy, math, os, sys
 from mathutils import Vector
@@ -200,7 +200,10 @@ def shot(sc, path, w, h):
 
 
 sc, co = setup()
+ONLY = argv[3:]
 for j in J:
+    if ONLY and j['name'] not in ONLY:
+        continue
     clear()
     for p in j['parts']:
         make(os.path.join(MODELS, p['obj'] + '.obj'), j['rot'], p.get('dy', 0.0), p.get('ys', 1.0))

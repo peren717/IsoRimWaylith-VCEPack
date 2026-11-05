@@ -242,29 +242,27 @@ def tank_chem():
 
 
 def tank_deep():
+    """A lying round tank sunk into a flat base: round sections, cut by a chord inside the base, so nothing goes below ground."""
     m = Model('vce_tank_deep')
-    CY, N = 0.79, 16
+    CY, N = 0.665, 16      # axis height: collar top 1.595, under the storey
+    BASE, CUT = 0.24, 0.12  # base top; the chord closing each section, hidden in the base
+    RC, RM, RE = 0.93, 0.86, 0.86    # collar, middle, end chamfer radius
 
-    def ell(z, rx, ry):
-        return [(rx * math.cos(2 * math.pi * j / N + math.pi / N), CY + ry * math.sin(2 * math.pi * j / N + math.pi / N), z) for j in range(N)]
-    A, B = (0.93, 0.76), (0.86, 0.70)
-    st = [(-1.30, 0.86, 0.70, 'c'), (-1.24, *A, 'c'), (-0.70, *A, 'c'), (-0.66, *B, 'b'), (0.66, *B, 'c'), (0.70, *A, 'c'), (1.24, *A, 'c'), (1.30, 0.86, 0.70, 'c')]
-    loft(m, [ell(z, a, b) for z, a, b, _ in st], lambda i, j: 'vce_dt_body' if st[i][3] == 'b' else 'vce_dt_collar', cap0='vce_dt_end', cap1='vce_dt_end')
+    def sec(z, r):
+        a0 = math.asin((CUT - CY) / r)          # below the axis: negative
+        return [(r * math.cos(a0 + (math.pi - 2 * a0) * j / N), CY + r * math.sin(a0 + (math.pi - 2 * a0) * j / N), z) for j in range(N + 1)]
+    st = [(-1.30, RE, 'c'), (-1.24, RC, 'c'), (-0.70, RC, 'c'), (-0.66, RM, 'b'), (0.66, RM, 'c'), (0.70, RC, 'c'), (1.24, RC, 'c'), (1.30, RE, 'c')]
+    loft(m, [sec(z, r) for z, r, _ in st], lambda i, j: 'vce_dt_body' if st[i][2] == 'b' else 'vce_dt_collar', cap0='vce_dt_end', cap1='vce_dt_end')
+    box(m, -0.96, 0.96, 0, BASE, -1.40, 1.40, 'vce_dt_foot', c=0.06)
     for sgn in (1, -1):
-        m.disc((0, CY, sgn * 1.30), X, Y, (0, 0, sgn), 0.66, 'vce_dt_plate', k=N, ry=0.54)
+        # the plate on the end, cut level with the base top
+        pts = [(0.66 * math.cos(2 * math.pi * i / N), max(BASE + 0.002, CY + 0.66 * math.sin(2 * math.pi * i / N)), sgn * 1.30) for i in range(N)]
+        m.decal(pts, 'vce_dt_plate', (0, 0, sgn))
 
         def circ(z, r):
             return [(r * math.cos(2 * math.pi * j / 12), CY + r * math.sin(2 * math.pi * j / 12), sgn * z) for j in range(12)]
         # the hub on the end: two steps along the axis
         loft(m, [circ(1.29, 0.34), circ(1.37, 0.34), circ(1.37, 0.25), circ(1.45, 0.25)], lambda i, j: 'vce_dt_hub', cap0='vce_dt_hub', cap1='vce_dt_hub')
-    # saddle feet at the four corners, cut to the collar's curve with a 0.012 gap
-    prof = [(0.96, 0.0), (0.96, 0.40)]
-    for x in (0.807, 0.72, 0.64):
-        prof.append((x, CY - A[1] * math.sqrt(1 - (x / A[0]) ** 2) - 0.012))
-    prof.append((0.64, 0.0))
-    for sx in (1, -1):
-        for sz in (1, -1):
-            loft(m, [[(sx * x, y, sz * z) for x, y in prof] for z in (0.96, 1.24)], lambda i, j: 'vce_dt_foot', cap0='vce_dt_foot', cap1='vce_dt_foot')
     return m
 
 
@@ -357,12 +355,12 @@ def refinery():
     hp = [(-1.42, 0.35), (1.42, 0.35), (1.42, 1.32), (1.30, 1.44), (-1.30, 1.44), (-1.42, 1.32)]
     prism(m, hp, P - 0.01, 0.95, 'vce_rf_hood', 'vce_rf_hood', bevel=0.06)
     box(m, -1.30, 0.60, P - 0.01, 0.70, -0.05, 0.345, 'vce_rf_block', c=0.05)
-    # the silo at the north-west: dome on a standing cylinder
+    # the silo at the north-west: a plain standing cylinder, flat top (user review 1)
     s = 'vce_rf_silo'
-    lathe(m, -0.84, 0.72, [(0.52, P - 0.01, s), (0.52, 1.04, s), (0.45, 1.27, s), (0.26, 1.44, s), (0.0, 1.50, s)], n=12)
-    # the chimney: VCE's fire overlay burns at its mouth
-    lathe(m, 0.0, 0.72, [(0.30, 0.90, 'vce_rf_collar'), (0.30, 1.00, 'vce_rf_collar'), (0.27, 1.07, 'vce_rf_chim'), (0.27, 1.46, 'vce_rf_rim'), (0.30, 1.50, 'vce_rf_rim'),
-                         (0.30, 1.55, 'vce_rf_rim'), (0.20, 1.55, 'vce_rf_mouth'), (0.20, 1.45, 'vce_rf_mouth'), (0.0, 1.45, 'vce_rf_mouth')], n=10)
+    lathe(m, -0.84, 0.72, [(0.52, P - 0.01, s), (0.52, 1.50, s)], n=14)
+    # the chimney, top 1.95 (user review 1: over the storey, accepted for now): VCE's fire overlay burns at its mouth
+    lathe(m, 0.0, 0.72, [(0.30, 0.90, 'vce_rf_collar'), (0.30, 1.00, 'vce_rf_collar'), (0.27, 1.07, 'vce_rf_chim'), (0.27, 1.86, 'vce_rf_rim'), (0.30, 1.90, 'vce_rf_rim'),
+                         (0.30, 1.95, 'vce_rf_rim'), (0.20, 1.95, 'vce_rf_mouth'), (0.20, 1.85, 'vce_rf_mouth'), (0.0, 1.85, 'vce_rf_mouth')], n=10)
     # louvred vent on the hood (paint)
     m.rect((0.66, 0.95, 0.86), X, Z, Y, 0.28, 0.36, 'vce_rf_vent')
     for i in range(5):
@@ -375,12 +373,13 @@ def refinery():
     sec = [(-0.07, P - 0.01), (-0.55, P - 0.01), (-0.55, 0.50), (-0.42, 0.60), (-0.27, 0.72), (-0.07, 0.72)]
     mf = {0: 'vce_rf_manF', 1: 'vce_rf_manF', 2: 'vce_rf_manB', 3: 'vce_rf_manB', 4: 'vce_rf_manT', 5: 'vce_rf_manF'}
     loft(m, [[(x, y, z) for z, y in sec] for x in (-0.93, 0.93)], lambda i, j: mf[j], cap0='vce_rf_manF', cap1='vce_rf_manF')
-    # three finned units on their pads, each with a neck to the manifold
-    L, D = 'vce_rf_finL', 'vce_rf_finD'
+    # three louvred vents on their pads (user review 1): flat octagonal panels with horizontal slats (paint), each with a neck to the manifold
     for cx in (-0.62, 0.0, 0.62):
-        box(m, cx - 0.27, cx + 0.27, P - 0.01, 0.17, -1.36, -0.62, 'vce_rf_pad')
-        lathe(m, cx, -0.98, [(0.24, 0.17, L), (0.24, 0.25, D), (0.24, 0.30, L), (0.24, 0.38, D), (0.24, 0.43, L), (0.24, 0.51, L)], n=8, phase=math.pi / 8)
-        box(m, cx - 0.07, cx + 0.07, 0.31, 0.45, -0.76, -0.54, 'vce_rf_neck')
+        box(m, cx - 0.27, cx + 0.27, P - 0.01, 0.19, -1.36, -0.62, 'vce_rf_pad')
+        prism(m, rectp(cx - 0.23, cx + 0.23, -1.23, -0.73, 0.08), 0.18, 0.25, 'vce_rf_finD', 'vce_rf_finL')
+        for dz in (-0.12, 0.0, 0.12):
+            m.rect((cx, 0.25, -0.98 + dz), X, Z, Y, 0.205, 0.038, 'vce_rf_finD')
+        box(m, cx - 0.07, cx + 0.07, P - 0.01, 0.27, -0.75, -0.54, 'vce_rf_neck')
     # deepchem in (west, dark), chemfuel out (east, red-brown): two elbows each, down to flanges on the plinth
     for sgn, pipe, fl, xp in ((-1, 'vce_rf_pipeD', 'vce_rf_flangeD', 1.20), (1, 'vce_rf_pipeC', 'vce_rf_flangeC', 1.16)):
         for z, y in ((-0.18, 0.50), (-0.43, 0.34)):
@@ -564,7 +563,7 @@ def main():
     used = set()
     for m in models:
         top = write(m)
-        if top > STOREY:
+        if top > STOREY and m.name != 'vce_refinery':      # the refinery's chimney: accepted, user review 1
             print('  !! over the storey:', m.name, top)
         used |= {t for s in m.shells for _, t in s.faces} | {t for _, t, _ in m.sheets}
     out = ["# IsoRim Waylith - Vanilla Chemfuel Expanded Pack, batch B1: fixed colours sampled from VCE's textures."]
