@@ -389,8 +389,9 @@ def refinery():
 
 
 # ---------------- pumpjack
-PJ_SLAB = 0.10
-PJ_TOP = 0.62      # both blocks' top
+PJ_RAISE = 0.30    # user review of v2: the platform twice as thick, everything on it lifted by this
+PJ_SLAB = 0.10 + PJ_RAISE   # the raised deck between the plates
+PJ_TOP = 0.62 + PJ_RAISE    # both blocks' top
 PJ_PIT = 0.46      # the well between the two plates reaches z +-0.46
 
 
@@ -398,32 +399,32 @@ def pumpjack_base():
     m = Model('vce_pumpjack_base')
     box(m, -1.36, 1.36, 0, PJ_SLAB, -1.20, 1.20, 'vce_pj_slab')
     m.rect((0, PJ_SLAB, 0), X, Z, Y, 0.95, PJ_PIT + 0.01, 'vce_pj_pit')
-    T = 0.30
+    T = 0.30 + PJ_RAISE    # the platform's plates
     n = [(-1.46, 0.68), (-1.0, PJ_PIT), (1.0, PJ_PIT), (1.46, 0.68), (1.46, 1.34), (1.34, 1.46), (-1.34, 1.46), (-1.46, 1.34)]
     prism(m, n, 0, T, 'vce_pj_plateF', 'vce_pj_plate')
     prism(m, [(x, -z) for x, z in n], 0, T, 'vce_pj_plateF', 'vce_pj_plate')
     # the two blocks either side of the well: one matching pair, the same hipped shape mirrored, top PJ_TOP (user review of the
-    # in-game sheet). The camera looks over the south block: with its top at 0.62 the sight line meets the arm's axis at about
-    # 0.30, so the collar (0.58) and the whole head stay in view at rest.
+    # in-game sheet). The camera looks over the south block: its top stands 0.52 over the deck, so the sight line meets the arm's
+    # axis 0.20 over the deck and the collar (0.48 over it) and the whole head stay in view at rest.
     F = PJ_PIT - 0.008
     low = [(-0.98, F), (0.98, F), (0.98, 0.82), (0.32, 1.26), (-0.32, 1.26), (-0.98, 0.82)]
     high = [(-0.84, F), (0.84, F), (0.84, 0.76), (0.27, 1.10), (-0.27, 1.10), (-0.84, 0.76)]
     for sgn in (1, -1):
         lo_ = [(x, sgn * z) for x, z in low]
         hi_ = [(x, sgn * z) for x, z in high]
-        rings = [plan(lo_, PJ_SLAB - 0.01), plan(lo_, 0.36), plan(hi_, PJ_TOP)]
+        rings = [plan(lo_, PJ_SLAB - 0.01), plan(lo_, 0.36 + PJ_RAISE), plan(hi_, PJ_TOP)]
         loft(m, rings, lambda i, j: 'vce_pj_face' if j == 0 else ('vce_pj_hoodA' if i == 0 else 'vce_pj_hoodB'), cap0='vce_pj_face', cap1='vce_pj_hoodT')
     # arch and the two guide bars on the north block's front (paint)
     k = 12
-    pts = [(0.43 * math.cos(math.pi * i / k), 0.28 + 0.24 * math.sin(math.pi * i / k), F) for i in range(k + 1)] + [(-0.43, PJ_SLAB, F), (0.43, PJ_SLAB, F)]
+    pts = [(0.43 * math.cos(math.pi * i / k), 0.28 + PJ_RAISE + 0.24 * math.sin(math.pi * i / k), F) for i in range(k + 1)] + [(-0.43, PJ_SLAB, F), (0.43, PJ_SLAB, F)]
     m.decal(pts, 'vce_pj_arch', NZ)
     for x in (-0.63, 0.63):
-        m.rect((x, 0.37, F), X, Y, NZ, 0.085, 0.17, 'vce_pj_guide')
+        m.rect((x, 0.37 + PJ_RAISE, F), X, Y, NZ, 0.085, 0.17, 'vce_pj_guide')
     # the lighter strip on the south block's top (paint)
     m.decal([(-0.30, PJ_TOP, -1.00), (0.30, PJ_TOP, -1.00), (0.07, PJ_TOP, -0.54), (-0.07, PJ_TOP, -0.54)], 'vce_pj_rampC', Y)
     # the two pipes round the machine
-    PIPE, lo, hi = 0.07, 0.46, 0.72    # the south pipe crosses over the block
-    tube(m, [(-1.16, 0.12, 0.14), (-1.16, lo, 0.14), (-1.16, lo, 1.33), (1.24, lo, 1.33), (1.24, lo, 0.88), (1.24, T + 0.02, 0.88)], PIPE, 'vce_pj_pipe')
+    PIPE, lo, hi = 0.07, 0.46 + PJ_RAISE, 0.72 + PJ_RAISE    # the south pipe crosses over the block
+    tube(m, [(-1.16, PJ_SLAB + 0.02, 0.14), (-1.16, lo, 0.14), (-1.16, lo, 1.33), (1.24, lo, 1.33), (1.24, lo, 0.88), (1.24, T + 0.02, 0.88)], PIPE, 'vce_pj_pipe')
     tube(m, [(-1.24, T + 0.02, -0.62), (-1.24, hi, -0.62), (-1.24, hi, -0.86), (1.24, hi, -0.86), (1.24, hi, -1.14), (1.24, T + 0.02, -1.14)], PIPE, 'vce_pj_pipe')
     f = 'vce_pj_flange'
     for x, z, y in ((-1.16, 0.14, PJ_SLAB), (1.24, 0.88, T), (-1.24, -0.62, T), (1.24, -1.14, T)):
