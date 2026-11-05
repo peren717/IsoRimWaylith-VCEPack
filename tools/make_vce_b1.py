@@ -2,7 +2,9 @@
 # Low-poly models of VCE's art, 128 px a cell, built from a per-shape art analysis (parts, footprint, heights; in the phase 1 report).
 # Self-contained, no Blender needed: writes Models/*.obj (with vt) and Models/vce_b1.mtl.
 # Game axes while building: x east, y up, z north, one cell a unit, origin = footprint centre on the ground, facing north.
-# OBJ stores z flipped (IsoRim's rule). Decals (paint) are single sheets lifted 0.004 off a face: no outline, no shell.
+# OBJ stores z flipped (IsoRim's rule). Decals (paint) are flush with the face they lie on: imprint() cuts the face into the decal and
+# its surround, which tile the plane, each with its own material (no second face over a face: those z-fight in the game, as fine
+# hatching that shimmers when the camera moves). The shell stays closed and takes no outline from the paint.
 # usage: <Blender>\5.2\python\bin\python.exe -I make_vce_b1.py <abs Models dir>
 import math, os, sys
 
@@ -105,6 +107,7 @@ class Model:
     def __init__(self, name):
         self.name = name
         self.shells, self.v, self.sheets = [], [], []
+        self.loose = False     # True: decals stay lifted sheets (the pumpjack arm, whose code is left alone)
 
     def shell(self):
         s = Shell(self)
@@ -114,7 +117,7 @@ class Model:
     def decal(self, pts, mat, n, lift=LIFT):
         """A flat sheet on a face: pts convex, n the face's outward normal, lifted along it."""
         n = norm(n)
-        self.sheets.append(([add(p, mul(n, lift)) for p in pts], mat, n))
+        self.sheets.append(([add(p, mul(n, lift)) for p in pts], mat, n, lift))
 
     def disc(self, c, u, v, n, r, mat, k=16, lift=LIFT, ry=None):
         ry = r if ry is None else ry
@@ -435,6 +438,7 @@ def pumpjack_base():
 def pumpjack_arm():
     """The moving part, origin at its lowest point on the axis."""
     m = Model('vce_pumpjack_arm')
+    m.loose = True
     N = 12
     g, h, c = 'vce_pj_grey', 'vce_pj_head', 'vce_pj_collar'
     prof = [(0.29, 0.0, g), (0.29, 0.08, 'vce_pj_ring'), (0.30, 0.12, g), (0.29, 0.16, g), (0.29, 0.22, 'rib'), (0.36, 0.24, 'rib'), (0.36, 0.50, c), (0.42, 0.52, c), (0.42, 0.60, c),
@@ -483,6 +487,197 @@ def deepchem():
     return m
 
 
+# ---------------- flush decals
+def plane_axes(n):
+    u = norm(cross(n, X if abs(n[0]) < 0.9 else Y))
+    return u, cross(n, u)
+
+
+def poly_area(q):
+    return sum(q[i][0] * q[(i + 1) % len(q)][1] - q[(i + 1) % len(q)][0] * q[i][1] for i in range(len(q))) / 2
+
+
+def clip_half(q, a, b):
+    """Splits polygon q (2D points carrying their 3D point) by the line a-b: (left part, right part)."""
+    left, right = [], []
+    dx, dy = b[0] - a[0], b[1] - a[1]
+
+    def side(p):
+        return dx * (p[1] - a[1]) - dy * (p[0] - a[0])
+    for i in range(len(q)):
+        p, r = q[i], q[(i + 1) % len(q)]
+        sp, sr = side(p), side(r)
+        if sp >= -1e-9:
+            left.append(p)
+        if sp <= 1e-9:
+            right.append(p)
+        if (sp > 1e-9 and sr < -1e-9) or (sp < -1e-9 and sr > 1e-9):
+            t = sp / (sp - sr)
+            c = (p[0] + (r[0] - p[0]) * t, p[1] + (r[1] - p[1]) * t, add(p[2], mul(sub(r[2], p[2]), t)))
+            left.append(c)
+            right.append(c)
+    return left, right
+
+
+def face_normal(pts):
+    n = (0.0, 0.0, 0.0)
+    for i in range(len(pts)):
+        n = add(n, cross(pts[i], pts[(i + 1) % len(pts)]))
+    return n
+
+
+def snap_vert(m, s, p):
+    """The shell's corner at p, or one within rounding of it: clipped corners must not leave slivers."""
+    for i in s.key.values():
+        d = sub(m.v[i], p)
+        if dot(d, d) < 2.5e-9:
+            return i
+    return s.vert(p)
+
+
+def clean_loop(ids):
+    """Drops repeats and spikes (a b a) from a corner loop."""
+    ids = list(ids)
+    changed = True
+    while changed and len(ids) >= 3:
+        changed = False
+        for k in range(len(ids)):
+            if ids[k] == ids[(k + 1) % len(ids)]:
+                ids.pop(k)
+                changed = True
+                break
+            if ids[k - 1] == ids[(k + 1) % len(ids)]:
+                for j in sorted((k, (k + 1) % len(ids)), reverse=True):
+                    ids.pop(j)
+                changed = True
+                break
+    return ids
+
+
+def imprint(m):
+    """Turns every decal into faces of the shell under it: each coplanar face it overlaps is cut into the overlap (the decal's material)
+    and the rest (its own). Decals go in order of lift, so a decal on a decal cuts the one below. Then corners that landed on a neighbour's
+    edge are put into that edge, so the shell stays closed."""
+    warn = []
+    first_new = len(m.v)
+    for pts, mat, n, lift in sorted(m.sheets, key=lambda s: s[3]):
+        base = [sub(p, mul(n, lift)) for p in pts]
+        o = base[0]
+        u, w = plane_axes(n)
+        d2 = [(dot(sub(p, o), u), dot(sub(p, o), w)) for p in base]
+        if poly_area(d2) < 0:
+            d2.reverse()
+        covered = 0.0
+        for s in m.shells:
+            out = []
+            for idx, t in s.faces:
+                f3 = [m.v[i] for i in idx]
+                fn = face_normal([sub(p, o) for p in f3])
+                l = math.sqrt(dot(fn, fn))
+                # the shell is oriented in OBJ space (z flipped), so a face's winding says nothing here: the plane decides, and the outward
+                # side is told by the decal's own normal being the only side a coplanar face of a closed shell can have
+                if l < 1e-9 or abs(dot(fn, n)) / l < 0.9999 or max(abs(dot(sub(p, o), n)) for p in f3) > 2e-4:
+                    out.append((idx, t))
+                    continue
+                q = [(dot(sub(p, o), u), dot(sub(p, o), w), p) for p in f3]
+                flip = poly_area(q) < 0
+                if flip:
+                    q.reverse()
+                pieces = []
+                for i in range(len(d2)):
+                    a, b = d2[i], d2[(i + 1) % len(d2)]
+                    q, right = clip_half(q, a, b)
+                    if len(right) >= 3 and poly_area(right) > 1e-8:
+                        pieces.append((right, t))
+                    if len(q) < 3:
+                        break
+                if len(q) < 3 or poly_area(q) <= 1e-8:
+                    out.append((idx, t))
+                    continue
+                covered += poly_area(q)
+                pieces.append((q, mat))
+                for piece, pt in pieces:
+                    pp = [c[2] for c in piece]
+                    if flip:
+                        pp.reverse()
+                    ids = clean_loop([snap_vert(m, s, p) for p in pp])
+                    if len(ids) >= 3:
+                        out.append((tuple(ids), pt))
+            s.faces = out
+        if covered < poly_area(d2) * 0.98:
+            warn.append('decal %s on no face over %.0f%%' % (mat, 100 * (1 - covered / poly_area(d2))))
+    m.sheets = []
+    for s in m.shells:
+        used = sorted({i for idx, _ in s.faces for i in idx if i >= first_new})
+        changed = True
+        while changed:
+            changed = False
+            out = []
+            for idx, t in s.faces:
+                new = []
+                for k in range(len(idx)):
+                    a, b = idx[k], idx[(k + 1) % len(idx)]
+                    new.append(a)
+                    pa, pb = m.v[a], m.v[b]
+                    e = sub(pb, pa)
+                    l2 = dot(e, e)
+                    on = []
+                    for i in used:
+                        if i == a or i == b:
+                            continue
+                        c = sub(m.v[i], pa)
+                        tt = dot(c, e) / l2
+                        r = sub(c, mul(e, tt))
+                        if 1e-6 < tt < 1 - 1e-6 and dot(r, r) < 9e-10:
+                            on.append((tt, i))
+                    if on:
+                        changed = True
+                        new += [i for _, i in sorted(on)]
+                out.append((tuple(new), t))
+            s.faces = out
+    return warn
+
+
+def triangles(idx, verts):
+    """A flat polygon as triangles (positions in idx): the plain fan unless it has corners on a straight side (imprint), then ear by ear."""
+    pts = [verts[i] for i in idx]
+    k = len(idx)
+    n = face_normal([sub(p, pts[0]) for p in pts])
+    tol = 1e-9 * math.sqrt(dot(n, n))
+    fan = [(0, i, i + 1) for i in range(1, k - 1)]
+
+    def turn(a, b, c):
+        return dot(cross(sub(b, a), sub(c, b)), n)
+    if all(turn(pts[i - 1], pts[i], pts[(i + 1) % k]) > tol for i in range(k)):
+        return fan
+    ring, tris = list(range(k)), []
+    while len(ring) > 3:
+        best, score = None, -1.0
+        for j in range(len(ring)):
+            a, b, c = ring[j - 1], ring[j], ring[(j + 1) % len(ring)]
+            if turn(pts[a], pts[b], pts[c]) <= tol:
+                continue
+            ab, bc, ca = sub(pts[b], pts[a]), sub(pts[c], pts[b]), sub(pts[a], pts[c])
+            ok = True
+            for i in ring:
+                if i in (a, b, c):
+                    continue
+                # no other corner in the ear or on its new edge
+                if all(dot(cross(e, sub(pts[i], p)), n) >= -tol for e, p in ((ab, pts[a]), (bc, pts[b]), (ca, pts[c]))):
+                    ok = False
+                    break
+            cr = cross(ab, bc)
+            sc = math.sqrt(dot(cr, cr)) / max(dot(ab, ab), dot(bc, bc), dot(ca, ca))
+            if ok and sc > score:
+                best, score = j, sc
+        if best is None:
+            return fan     # a face with no area (a loft's zero step): as before
+        tris.append((ring[best - 1], ring[best], ring[(best + 1) % len(ring)]))
+        ring.pop(best)
+    tris.append(tuple(ring))
+    return tris
+
+
 # ---------------- writing and checks
 def obj_of(p):
     return (p[0], p[1], -p[2])
@@ -512,10 +707,13 @@ def check_and_orient(m):
 
 def write(m):
     warn = check_and_orient(m)
+    if m.sheets and not m.loose:
+        warn += imprint(m)
+        warn += check_and_orient(m)
     lines = ['# %s: IsoRim Waylith - Vanilla Chemfuel Expanded Pack, batch B1 (tools/make_vce_b1.py)' % m.name, 'mtllib ' + LIB]
     verts = list(m.v)
     faces = [f for s in m.shells for f in s.faces]
-    for pts, t, n in m.sheets:
+    for pts, t, n, _ in m.sheets:
         base = len(verts)
         verts += [tuple(p) for p in pts]
         idx = list(range(base, base + len(pts)))
@@ -541,8 +739,8 @@ def write(m):
                 vts[key] = len(vtl) + 1
                 vtl.append('vt %.4f %.4f' % key)
             part.append('%d/%d' % (i + 1, vts[key]))
-        for k in range(1, len(part) - 1):
-            body.append('f %s %s %s' % (part[0], part[k], part[k + 1]))
+        for a_, b_, c_ in triangles(idx, verts):
+            body.append('f %s %s %s' % (part[a_], part[b_], part[c_]))
             tris += 1
     lines += vtl + body
     open(os.path.join(OUT, m.name + '.obj'), 'w', encoding='utf-8', newline='\n').write('\n'.join(lines) + '\n')
@@ -565,7 +763,7 @@ def main():
         top = write(m)
         if top > STOREY and m.name != 'vce_refinery':      # the refinery's chimney: accepted, user review 1
             print('  !! over the storey:', m.name, top)
-        used |= {t for s in m.shells for _, t in s.faces} | {t for _, t, _ in m.sheets}
+        used |= {t for s in m.shells for _, t in s.faces} | {t for _, t, _, _ in m.sheets}
     out = ["# IsoRim Waylith - Vanilla Chemfuel Expanded Pack, batch B1: fixed colours sampled from VCE's textures."]
     for k in sorted(used):
         kd, metal = MATS[k]
